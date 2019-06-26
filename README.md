@@ -1,5 +1,5 @@
 # ED1-UnB
-Projetos desenvolvidos na disciplina de Estrutura de Dados 1, na Faculdade do Gama, Universidade de Brasília, professor Mateus Mendelson.
+Projetos desenvolvidos na disciplina de Estrutura de Dados 1, cursada em 01/2019 na Faculdade do Gama, Universidade de Brasília, professor Mateus Mendelson.
 
 Projeto 1: utilização de recursividade em problema clássico da Torre de Hanoi; manipulação de pointeiros e alocação dinâmica de memória.
 
