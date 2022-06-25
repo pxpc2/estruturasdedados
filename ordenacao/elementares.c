@@ -30,19 +30,18 @@ void bubbleSort(Item *v, int l, int r) {
 
 
 void insertionSort(Item *v, int l, int r) {
-    for (int i = r; i > l; i--) {
-        // ja deixar todo mundo mais ou menos ajeitado
-        cmpexch(v[i - 1], v[i]) // e ja deixa o menor elemento no v[left]
-    }
-    // agr ir elemento por elemento menos o v[left]
+    // deixar antes ja mais organizado, com o menor ja em v[l]
+    for (int i = r; i > l; i--)
+        cmpexch(v[i - 1], v[i])
+
+    // no insertionsort vamos olhando a esquerda e fazendo trocas
     for (int i = l + 2; i <= r; i++) {
         int j = i;
-        Item temp = v[j];
-        // olhando todos a sua esquerda e trocando a posicao se for menor
+        Item temp = v[j]; // enquanto guarda sua posicao
         while (less(temp, v[j-1])) {
             v[j] = v[j-1];
             j--;
         }
-        v[j] = temp;
+        v[j] = temp; // insere na nova posicao correta
     }
 }
