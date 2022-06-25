@@ -8,6 +8,7 @@ typedef int Item;
 void selectionSort(Item* v, int l, int r);
 void bubbleSort(Item *v, int l, int r);
 void insertionSort(Item *v, int l, int r);
+void shellSort(Item *v, int l, int r);
 
 
 void selectionSort(Item* v, int l, int r) {
@@ -36,6 +37,7 @@ void insertionSort(Item *v, int l, int r) {
 
     // no insertionsort vamos olhando a esquerda e fazendo trocas
     for (int i = l + 2; i <= r; i++) {
+        // comeca do 2o elemento pq 1o ja ta correto
         int j = i;
         Item temp = v[j]; // enquanto guarda sua posicao
         while (less(temp, v[j-1])) {
