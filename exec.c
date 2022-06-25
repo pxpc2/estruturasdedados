@@ -4,16 +4,13 @@
 
 int main() {
 
-    Item v[50];
-    for (int i = 0; i < 50; i++) {
-        v[i] = rand() % 500;
+    Item v[7] = {3, 8, 6, 5, 1, 4, 2};
+    for (int i = 0; i < 7; i++)
         printf("%d\n", v[i]);
-    }
-
-    selectionSort(v, 0, 49);
+    insertionSort(v, 0, 6);
     printf("\n\nVETOR FOI ORDERNADO\n\n");
 
-    for (int i = 0; i < 50; i++)
+    for (int i = 0; i < 7; i++)
         printf("%d\n", v[i]);
 
     return 0;
