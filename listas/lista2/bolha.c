@@ -1,13 +1,11 @@
 #include "stdio.h"
 
 int _main() {
-    int N, k = 0, size = 0;
+    int N, size = 0;
     int v[1000];
 
-    while (scanf("%d", &N) != EOF) {
-        v[k] = N;
-        size++;
-    }
+    while (scanf("%d", &N) != EOF)
+        v[++size] = N;
 
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
