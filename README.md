@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ED1-UnB
 Projetos desenvolvidos na disciplina de Estrutura de Dados 1, cursada em 01/2019 na Faculdade do Gama, Universidade de Brasília, professor Mateus Mendelson.
 
@@ -12,3 +13,7 @@ Projeto 4: Simulação do funcionamento do aeroporto internacional de Brasília,
 Projeto 5: Implementação de uma BST (Binary Search Tree) e métodos relacionados à estrutura.
 
 Projeto 6: Implementação de uma Rede Neural, do tipo feedforward, utilizando o algoritmo de Backpropagation, para classificar os terrenos do Projeto 2, utilizando as features calculadas pelo ILBP e GLCM do projeto 2 e rodando os conjuntos teste e treinamento pela reude neural.
+=======
+# EDA2-FGA
+Repositório com conteúdo desenvolvido na disciplina Estrutura de Dados 2 2022/2, prof. Bruno Ribas, na Faculdade do Gama, UnB.
+>>>>>>> eda2/master
