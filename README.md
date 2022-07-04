@@ -1,6 +1,7 @@
-<<<<<<< HEAD
-# ED1-UnB
-Projetos desenvolvidos na disciplina de Estrutura de Dados 1, cursada em 01/2019 na Faculdade do Gama, Universidade de Brasília, professor Mateus Mendelson.
+## Repositório para as disciplinas de Estruturas de Dados da Unb-FGA #
+
+### /eda1
+Projetos desenvolvidos na disciplina de estruturasdedados1 19/1 do professor Mateus Mendelson.
 
 Projeto 1: utilização de recursividade em problema clássico da Torre de Hanoi; manipulação de pointeiros e alocação dinâmica de memória.
 
@@ -13,7 +14,9 @@ Projeto 4: Simulação do funcionamento do aeroporto internacional de Brasília,
 Projeto 5: Implementação de uma BST (Binary Search Tree) e métodos relacionados à estrutura.
 
 Projeto 6: Implementação de uma Rede Neural, do tipo feedforward, utilizando o algoritmo de Backpropagation, para classificar os terrenos do Projeto 2, utilizando as features calculadas pelo ILBP e GLCM do projeto 2 e rodando os conjuntos teste e treinamento pela reude neural.
-=======
-# EDA2-FGA
-Repositório com conteúdo desenvolvido na disciplina Estrutura de Dados 2 2022/2, prof. Bruno Ribas, na Faculdade do Gama, UnB.
->>>>>>> eda2/master
+
+
+### /eda2
+resolucoes de questões das listas, implementacões de algoritmos e projetos da disciplina estruturasdedados2 22/2 professor Bruno Ribas.
+
+---
