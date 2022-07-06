@@ -5,6 +5,7 @@ typedef int Item;
 #define cmpexch(A, B) {if (less(B,A)) exch(A, B)}
 
 void merge(Item *v, int l, int r1, int r2);
+void mergeSort(Item *v, int l, int r);
 
 void merge(Item *v, int l, int r1, int r2) 
 {
@@ -14,7 +15,7 @@ void merge(Item *v, int l, int r1, int r2)
 
     while (i <= r1 && j <= r2)
     {
-        if (less(v[i], v[j]))
+        if (less(v[i], v[j])) // MENOR OU IGUAL P MANTER O ALGO ESTÁVEL
             v2[k++] = v[i++];
         else
             v2[k++] = v[j++];
@@ -27,6 +28,8 @@ void merge(Item *v, int l, int r1, int r2)
     k = 0;
     for (i = l; i <= r2; i++)
         v[i] = v2[k++];
+
+    free(v2);
 }
 
 void mergeSort(Item *v, int l, int r)
@@ -34,6 +37,6 @@ void mergeSort(Item *v, int l, int r)
     if (l == r) return;
     int meio = (r+l) / 2;
     mergeSort(v, l, meio);
-    mergeSort(v, meio-1, r);
+    mergeSort(v, meio+1, r);
     merge(v, l, meio, r); 
 }
