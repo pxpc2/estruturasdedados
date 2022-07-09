@@ -1,5 +1,7 @@
 /cmake-build-debug/
 /CMakeLists.txt
 /_config.yml
-/github-token
+/token
 /.idea/
+/.vscode/
+/build/
