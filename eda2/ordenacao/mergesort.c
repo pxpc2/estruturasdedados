@@ -23,7 +23,7 @@ void merge(Item *v, int l, int r1, int r2)
 
     // agora olhar o que sobrou pra cada metade, que já eram os maiores
     while (i <= r1) v2[k++] = v[i++];
-    while (r <= r2) v2[k++] = v[j++];
+    while (j <= r2) v2[k++] = v[j++];
 
     k = 0;
     for (i = l; i <= r2; i++)
