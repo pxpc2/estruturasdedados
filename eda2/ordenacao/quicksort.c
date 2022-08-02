@@ -38,8 +38,8 @@ void quickSort_ingenuo(Item *v, int l, int r)
     int j;
     if (r <= l) return;
     j = separa(v, l, r);
-    quickSort(v, l, j-1);
-    quickSort(v, j+1, r);
+    quickSort_ingenuo(v, l, j-1);
+    quickSort_ingenuo(v, j+1, r);
 }
 
 void quickSort_mediana(Item *v, int l, int r)
@@ -60,8 +60,8 @@ void quickSort_mediana(Item *v, int l, int r)
 
     j = separa(v, l+1, r-1);
 
-    quickSort(v, l, j-1);
-    quickSort(v, j+1, r);
+    quickSort_mediana(v, l, j-1);
+    quickSort_mediana(v, j+1, r);
 }
 
 void sort(Item *v, int l, int r)
