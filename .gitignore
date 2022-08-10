@@ -1,6 +1,7 @@
 /cmake-build-debug/
 /CMakeLists.txt
 /_config.yml
+/token
 /token.txt
 /.idea/
 /.vscode/
