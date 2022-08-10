@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 typedef int Item;
 #define key(A) (A)
 #define less(A, B) ( key(A) < key(B) )
@@ -10,10 +13,29 @@ struct PQst
     int N;
 };
 
-/*
- *  Implementação de uma PQ_MAX
- *  isto é, uma PQ DECRESCENTE
- */
+
+void swim(Item *pq, int k) // () fix_up
+{
+    while (k > 1 && less(pq[k/2], pq[k]))
+    {
+        exch(pq[k], pq[k/2]);
+        k /= 2;
+    }
+}
+
+void sink(Item *pq, int k, int l) // () fix_down
+{
+    while (2*k <= l)
+    {
+        int j = 2*k;
+        if (j < l && less(pq[j], pq[j+1]))
+            j++;
+        if (!less(pq[k], pq[j]))
+            break;
+        exch(pq[k], pq[j]);
+        k = j;
+    }
+}
 
 void initPQ(int max_N, struct PQst *pq)
 {
@@ -45,35 +67,39 @@ Item removeMax(struct PQst *pq)
     int heap_length = (pq->N - 1); // N-1 já contando com a remoção do max
     sink(pq->q, 1, heap_length);
 
-    /* 
+    /*
      vale lembrar que a length é sempre intervalo fechado
      porém como não trabalhamos com índice 0, a heap com N elementos
      já seria length "N" no intervalo fechado.
-     porém, o vetor *pq tem size N+1 
+     porém, o vetor *pq tem size N+1
     */
 
     return pq->q[pq->N--]; // qm ficou em pq[N], e em seguida decrementa N
 }
 
-void swim(Item *pq, int k) // () fix_up
-{
-    while (k > 1 && less(pq[k/2], pq[k]))
-    {
-        exch(pq[k], pq[k/2]);
-        k /= 2;
-    }
-}
+struct PQst *pq, *pq2;
+Item *pls;
 
-void sink(Item *pq, int k, int l) // () fix_down
+int op, qt, size = 0;
+
+int main()
 {
-    while (2*k <= l)
+    initPQ(101, pq);
+    while(scanf("%d", &op) != EOF)
     {
-        int j = 2*k;
-        if (j < l && less(pq[j], pq[j+1]))
-            j++;
-        if (!less(pq[k], pq[j]))
-            break;
-        exch(pq[k], pq[j]);
-        k = j;
+        if (op)
+        {
+            int pl;
+            scanf("%d", &pl);
+            insert(pl, pq);
+            if (pq->N == 101)
+                removeMax(pq);
+        }
+        else
+        {
+            scanf("%d", &qt);
+        }
     }
+
+    return 0;
 }

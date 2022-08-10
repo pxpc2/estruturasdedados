@@ -1,8 +1,8 @@
 /cmake-build-debug/
 /CMakeLists.txt
 /_config.yml
-/token
-/token.txt
+/tokenmac
+/tokenwindows.txt
 /.idea/
 /.vscode/
 /build/
