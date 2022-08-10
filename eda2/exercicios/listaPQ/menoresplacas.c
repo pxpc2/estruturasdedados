@@ -7,12 +7,8 @@ typedef int Item;
 #define exch(A, B) { Item temp = A; (A) = B; (B) = temp; }
 #define cmpexch(A, B) { if (less(B,A)) exch(A, B) }
 
-struct PQst
-{
-    Item *q;
-    int N;
-};
-
+Item *pls, *q, *res;
+int op, qt, pl, N, size = 0;
 
 void swim(Item *pq, int k) // () fix_up
 {
@@ -37,35 +33,34 @@ void sink(Item *pq, int k, int l) // () fix_down
     }
 }
 
-void initPQ(int max_N, struct PQst *pq)
+void initPQ(int max_N)
 {
-    pq->q = malloc(sizeof(Item) * (max_N + 1));
-    pq->N = 0;
+    q = malloc(sizeof(Item) * (max_N + 1));
+    N = 0;
 }
 
-int getMax(struct PQst *pq)
+int getMax()
 {
-    return pq->q[1];
+    return q[1];
 }
 
-int isEmpty(struct PQst *pq)
+int isEmpty()
 {
-    return (pq->N == 0);
+    return (N == 0);
 }
 
-void insert(Item v, struct PQst *pq)
+void insert(Item v)
 {
-    pq->q[++pq->N] = v;
-    swim(pq->q, pq->N);
+    q[++N] = v;
+    swim(q, N);
 }
 
-Item removeMax(struct PQst *pq)
+Item removeMax()
 {   // max item é o no índice 1, paizão
+    exch(q[1], q[N]); // joga o max pra última pos
 
-    exch(pq->q[1], pq->q[pq->N]); // joga o max pra última pos
-
-    int heap_length = (pq->N - 1); // N-1 já contando com a remoção do max
-    sink(pq->q, 1, heap_length);
+    int heap_length = (N - 1); // N-1 já contando com a remoção do max
+    sink(q, 1, heap_length);
 
     /*
      vale lembrar que a length é sempre intervalo fechado
@@ -74,30 +69,42 @@ Item removeMax(struct PQst *pq)
      porém, o vetor *pq tem size N+1
     */
 
-    return pq->q[pq->N--]; // qm ficou em pq[N], e em seguida decrementa N
+    return q[N--]; // qm ficou em pq[N], e em seguida decrementa N
 }
-
-struct PQst *pq, *pq2;
-Item *pls;
-
-int op, qt, size = 0;
 
 int main()
 {
-    initPQ(101, pq);
+    pls = malloc(sizeof(Item) * 1000000);
     while(scanf("%d", &op) != EOF)
     {
-        if (op)
+        if (op == 1)
         {
-            int pl;
             scanf("%d", &pl);
-            insert(pl, pq);
-            if (pq->N == 101)
-                removeMax(pq);
+            pls[size] = pl;
+            size++;
         }
-        else
+        else if (op == 2)
         {
             scanf("%d", &qt);
+            initPQ(qt+1);
+            for (int i = 0; i < qt; i++)
+                insert(pls[i]);
+            for (int i = qt; i < size; i++)
+            {
+                insert(pls[i]);
+                removeMax();
+            }
+            res = malloc(sizeof(Item) * qt);
+            int z = 0;
+            while (!isEmpty())
+            {
+                res[z] = removeMax();
+                z++;
+            }
+            free(q);
+            for (int i = z-1; i > 0; i--)
+                printf("%d ", res[i]);
+            printf("%d\n", res[0]);
         }
     }
 
