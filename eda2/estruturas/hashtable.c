@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct Item
 {
@@ -7,9 +8,7 @@ typedef struct Item
     long elemento;
 } Item;
 
-// 0 de ex, mas deve ser fora das restriçoes da chave
-// isto é, nao inicializado
-Item NULL_ITEM = {0,0,0,0};
+Item NULL_ITEM = {-1,-1,-1,-1};
 
 #define Key(x) (x.chave)
 #define less(a,b) (Key(a) < Key(b))
