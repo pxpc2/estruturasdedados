@@ -1,87 +1,99 @@
 #include "stdio.h"
 #include "stdlib.h"
 
-typedef int Item;
-#define key(A) (A)
+#define key(A) (A.key)
 #define less(A, B) ( key(A) < key(B) )
+#define cmpexch(A, B) { if (less(B,A)) exch(A, B) }
 
-typedef struct Heap
+typedef struct
 {
-    int *pq; // armazena o índice para um Item
-    int *qp; // armazena a posição na heap para tal índice (tipo uma hash)
-    int size;
-} Heap;
+    int key;
+    int inside_heap; // flag se já foi inserida na heap de indices
+} Item;
 
-void heap_init(Heap *heap, int max_size);
-int heap_isEmpty(Heap *heap);
-void heap_insert(Heap *heap, int k);
-void exch(Heap *h, int i, int j);
-void swim(Heap *h, int k);
-void sink(Heap *h, int k, int size);
-Item heap_poll(Heap *heap);
-void heap_change(Heap *h, int k);
-
-void heap_init(Heap *heap, int max_size)
+typedef struct
 {
-    heap = malloc(sizeof(Heap));
-    heap->size = 0;
-    heap->pq = malloc(sizeof(int) * max_size);
-    heap->qp = malloc(sizeof(int) * max_size);
+    int *pq; // guarda o indice no vetor de dados (data)
+    int *qp; // guarda o índice da fila (pq)
+    // i.e:        pq[ qp[x] ] = x
+    //             qp[ pq[x] ] = x
+    int N;
+} PQHeap;
+
+
+
+            // consideramos que já temos os dados (input)
+Item *data; // e estes podem ser inseridos na PQ p/ manusear como heap
+            // guardando somente os índices que apontam (tipo um ponteiro mesmo)
+
+
+/**
+ * @todo
+ */
+void swim(Item *v, PQHeap *pq, int k);
+void exch_index(PQHeap *pq, int i, int j);
+
+void pq_init(PQHeap *pq, int max)
+{
+    pq->N = 0;
+    pq->pq = malloc(sizeof(int) * max + 1);
+    pq->qp = malloc(sizeof(int) * max + 1);
 }
 
-void swim(Heap *h, int k)
+/**
+ * @param pq heap que vai armazenar o indice k de um
+ * elemento específico e = data[k]
+ * @param k índice
+ */
+void pq_insert(PQHeap *pq, int k)
 {
-    while (k > 1 && less(h->pq[k/2], h->pq[k]))
+    int n = ++pq->N;
+    pq->pq[n] = k;
+    pq->qp[k] = n;
+    swim(data, pq, n);
+}
+
+/**
+ * exch um indice i com um indice j, tanto em pq quanto em qp
+ * mantendo assim a proposição pq[qp[x]] = x e vice-versa
+ */
+void exch_index(PQHeap *pq, int i, int j)
+{
+    int tmp = pq->qp[i];
+    pq->qp[i] = pq->qp[j];
+    pq->qp[j] = tmp;
+    pq->pq[pq->qp[i]] = i;
+    pq->pq[pq->qp[j]] = j;
+}
+
+void swim(Item *v, PQHeap *pq, int k)
+{
+    while (k > 1 && less(v[k/2], v[k]))
     {
-        exch(h, h->pq[k], h->pq[k/2]);
+        exch_index(pq, pq->pq[k], pq->pq[k/2]); // exch de índices
+        // nao precisa fazer exch no vetor v (data)
         k /= 2;
     }
 }
-
-void sink(Heap *h, int k, int size)
+void sink(Item *v, PQHeap *pq, int k, int n)
 {
-    while (2 * k <= size)
+    while (2 * k <= n)
     {
         int j = 2*k;
-        if (j < size && less(h->pq[j], h->pq[j+1]))
+        if (j < n && less(v[j], v[j+1]))
             j++;
-        if (!less(h->pq[k], h->pq[j]))
+        if (!less(v[k], v[j]))
             break; // não precisa fazer a troca
-        exch(h, h->pq[k], h->pq[j]);
+        exch_index(pq, pq->pq[k], pq->pq[j]);
         k = j;
     }
 }
 
-void heap_insert(Heap *heap, int k)
+int pq_delmax(PQHeap *pq)
 {
-    heap->qp[k] = ++heap->size;
-    heap->pq[heap->size] = k;
-    swim(heap, heap->size);
+    int n = pq->N;
+    exch_index(pq, pq->pq[1], pq->pq[n]);
+    sink(data, pq, 1, n-1);
+    return pq->pq[pq->N--];
 }
 
-Item heap_poll(Heap *heap)
-{
-    exch(heap, heap->pq[1], heap->pq[heap->size]);
-    int new_length = heap->size - 1;
-    sink(heap, 1, new_length);
-    return heap->pq[heap->size--];
-}
-
-void heap_change(Heap *h, int k)
-{
-    swim(h, h->qp[k]);
-    sink(h, h->qp[k], h->size);
-}
-
-void exch(Heap *h, int i, int j)
-{
-    int t = h->qp[i]; h->qp[i] = h->qp[j];
-    h->qp[j] = t;
-    h->pq[h->qp[i]] = i;
-    h->pq[h->qp[j]] = j;
-}
-
-int heap_isEmpty(Heap *heap)
-{
-    return heap->size == 0;
-}
