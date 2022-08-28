@@ -21,9 +21,16 @@ typedef struct
 
 graph *g;
 
-link newLink(int v, link next)
+edge EDGE(int v, int w)
 {
-    link x = malloc(sizeof(*x));
+    edge e;
+    e.src = v, e.dest = w;
+    return e;
+}
+
+link newNode(int v, link next)
+{
+    link x = malloc(sizeof(link));
     x->v = v;
     x->next = next;
     return x;
@@ -42,7 +49,17 @@ void initGraph(int N)
 void insertEdge(edge e)
 {
     int v = e.src, w = e.dest;
-    g->adj[v] = newLink(w, g->adj[v]);
-    g->adj[w] = newLink(v, g->adj[w]);
+    g->adj[v] = newNode(w, g->adj[v]);
+    g->adj[w] = newNode(v, g->adj[w]);
     g->E++;
+}
+
+int totalEdges(edge a[])
+{
+    int E = 0;
+    link t;
+    for (int i = 0; i < g->V; i++)
+        for (t = g->adj[i]; t != NULL; t = t->next)
+            if (i < t->v) a[E++] = EDGE(i, t->v);
+    return E;
 }
