@@ -4,6 +4,9 @@
 
 typedef struct node *link; // representa já um ponteiro de node
 
+static int *visited;
+static int cnt;
+
 struct node
 {
     int v;
@@ -21,8 +24,6 @@ struct edge
     int src, dest;
 };
 
-graph *g;
-
 edge EDGE(int v, int w)
 {
     edge e;
@@ -38,17 +39,23 @@ link newNode(int v, link next)
     return x;
 }
 
-void initGraph(int N)
+graph* initGraph(int N)
 {
-    g = malloc(sizeof(*g));
+    graph *g = malloc(sizeof(*g)      );
     g->V = N;
     g->E = 0;
-    g->adj = malloc(N * sizeof(link));
+    g->adj   = malloc(N * sizeof(link));
+    visited  = malloc(N * sizeof(int) );
     for (int i = 0; i < N; i++)
+    {
         g->adj[i] = NULL;
+        visited[i] = -1;
+    }
+    cnt = 0;
+    return g;
 }
 
-void insertEdge(edge e)
+void insertEdge(graph *g, edge e)
 {
     int src = e.src, dest = e.dest;
     g->adj[src] = newNode(dest, g->adj[src]);
@@ -56,7 +63,7 @@ void insertEdge(edge e)
     g->E++;
 }
 
-int totalEdges(edge a[])
+int totalEdges(graph *g, edge a[])
 {
     int E = 0;
     link t;
@@ -66,7 +73,7 @@ int totalEdges(edge a[])
     return E;
 }
 
-void showGraph()
+void showGraph(graph *g)
 {
     int V = g->V, E = g->E;
     printf("Graph with %d vertices and %d edges\n", V, E);
@@ -76,5 +83,17 @@ void showGraph()
         for (link t = g->adj[i]; t != NULL; t = t->next)// O(V+E)
             printf(" %2d", t->v);
         printf("\n");
+    }
+}
+
+void dfs_recursive(graph *g, edge e)
+{
+    int w = e.dest;
+    visited[w] = cnt++;
+    for (link l = g->adj[w]; l != NULL; l = l->next)
+    {
+        int t = l->v;
+        if (visited[t] == -1)
+            dfs_recursive(g, EDGE(w, t));
     }
 }
