@@ -13,4 +13,4 @@ void showGraph(graph *g);
 edge EDGE(int v, int w);
 link *adj(graph *G);
 
-#endif //ESTRUTURASDEDADOS_GRAPH_H
+#endif

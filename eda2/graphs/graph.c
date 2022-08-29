@@ -41,15 +41,13 @@ link newNode(int v, link next)
 
 graph* initGraph(int N)
 {
-    graph *g = malloc(sizeof(*g)      );
+    graph *g = malloc(sizeof(*g));
+    g->adj   = malloc(N * sizeof(link));
     g->V = N;
     g->E = 0;
-    g->adj   = malloc(N * sizeof(link));
-    visited  = malloc(N * sizeof(int) );
     for (int i = 0; i < N; i++)
     {
         g->adj[i] = NULL;
-        visited[i] = -1;
     }
     cnt = 0;
     return g;
@@ -96,4 +94,30 @@ void dfs_recursive(graph *g, edge e)
         if (visited[t] == -1)
             dfs_recursive(g, EDGE(w, t));
     }
+}
+
+void initVisted(int V)
+{
+    visited = malloc(sizeof(int) * V);
+    for (int i = 0; i < V; i++)
+        visited[i] = -1;
+    cnt = 0;
+}
+
+/**
+ * @return quantidade de componentes conexos no grafo
+ */
+int graphSearch(graph *g)
+{
+    initVisted(g->V);
+    int conexos = 0;
+    for (int i = 0; i < g->V; i++)
+    {
+        if (visited[i] == -1)
+        {
+            dfs_recursive(g, EDGE(i, i));
+            conexos++;
+        }
+    }
+    return conexos;
 }
