@@ -1,4 +1,6 @@
-#include "stdlib.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include "graph.h"
 
 typedef struct node *link; // representa já um ponteiro de node
 
@@ -8,16 +10,16 @@ struct node
     link next;
 };
 
-typedef struct
+struct graph
 {
     int V, E;
     link *adj;
-} graph;
+};
 
-typedef struct
+struct edge
 {
     int src, dest;
-} edge;
+};
 
 graph *g;
 
@@ -48,9 +50,9 @@ void initGraph(int N)
 
 void insertEdge(edge e)
 {
-    int v = e.src, w = e.dest;
-    g->adj[v] = newNode(w, g->adj[v]);
-    g->adj[w] = newNode(v, g->adj[w]);
+    int src = e.src, dest = e.dest;
+    g->adj[src] = newNode(dest, g->adj[src]);
+    g->adj[dest] = newNode(src, g->adj[dest]);
     g->E++;
 }
 
@@ -62,4 +64,17 @@ int totalEdges(edge a[])
         for (t = g->adj[i]; t != NULL; t = t->next)
             if (i < t->v) a[E++] = EDGE(i, t->v);
     return E;
+}
+
+void showGraph()
+{
+    int V = g->V, E = g->E;
+    printf("Graph with %d vertices and %d edges\n", V, E);
+    for (int i = 0; i < V; i++)// O(V)
+    {
+        printf("%2d:", i);
+        for (link t = g->adj[i]; t != NULL; t = t->next)// O(V+E)
+            printf(" %2d", t->v);
+        printf("\n");
+    }
 }
