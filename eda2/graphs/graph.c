@@ -2,21 +2,19 @@
 #include <stdlib.h>
 #include "graph.h"
 
-typedef struct node *link; // representa já um ponteiro de node
-
 static int *visited;
 static int cnt;
 
 struct node
 {
     int v;
-    link next;
+    struct node *next;
 };
 
 struct graph
 {
     int V, E;
-    link *adj;
+    struct node **adj;
 };
 
 struct edge
@@ -31,9 +29,9 @@ edge EDGE(int v, int w)
     return e;
 }
 
-link newNode(int v, link next)
+struct node *newNode(int v, struct node *next)
 {
-    link x = malloc(sizeof(link));
+    struct node *x = malloc(sizeof(link));
     x->v = v;
     x->next = next;
     return x;
@@ -42,11 +40,13 @@ link newNode(int v, link next)
 graph* initGraph(int N)
 {
     graph *g = malloc(sizeof(*g));
-    g->adj   = malloc(N * sizeof(link));
+    g->adj = malloc(sizeof(struct node*) * N);
     g->V = N;
     g->E = 0;
+
     for (int i = 0; i < N; i++)
     {
+        g->adj[i] = malloc(sizeof(g->adj[i]));
         g->adj[i] = NULL;
     }
     cnt = 0;
